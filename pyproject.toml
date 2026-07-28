@@ -70,9 +70,9 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/chengjie-lu/deepluq"
-documentation = "https://github.com/chengjie-lu/deepluq"
-repository = "https://github.com/chengjie-lu/deepluq"
+homepage = "https://github.com/INTO-CPS-Association/DeepLUQ"
+documentation = "https://github.com/INTO-CPS-Association/DeepLUQ"
+repository = "https://github.com/INTO-CPS-Association/DeepLUQ"
 
 #[project.entry-points]
 

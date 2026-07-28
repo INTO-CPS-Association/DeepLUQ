@@ -7,7 +7,7 @@ author: "Chengjie Lu and Thomas Roehr"
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: off
+  execute_notebooks: force
 
 
 # Add a bibtex file so that we can create citations
@@ -16,7 +16,7 @@ execute:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/chengjie-lu/deepluq  # Online location of your book
+  url: https://github.com/INTO-CPS-Association/DeepLUQ  # Online location of your book
   path_to_book: "." # Optional path to your book, relative to the repository root
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
@@ -39,18 +39,5 @@ sphinx:
     html_last_updated_fmt: "%b %d, %Y"
     todo_include_todos: True
     autoapi_dirs: ['src']
-    autodoc_mock_imports:
-      - torch
-      - torchvision
-      - torchmetrics
-      - onnx
-      - onnxruntime
-      - cv2
-      - hdbscan
-      - ensemble_boxes
-      - aiohttp
-      - pypylon
-      - pycocotools
-      - ImageHash
     # Ref: https://github.com/executablebooks/sphinx-external-toc/issues/36
     suppress_warnings: ["etoc.toctree"]
