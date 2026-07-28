@@ -67,6 +67,7 @@ dependencies = [
     "torchvision",
     "tqdm",
     "ensemble-boxes",
+    "numba>=0.60.0",
 ]
 
 [project.urls]
