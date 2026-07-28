@@ -1,0 +1,6 @@
+DEEPLUQ_MAJOR_VERSION = 0
+DEEPLUQ_MINOR_VERSION = 1
+DEEPLUQ_PATCH_LEVEL = 5
+
+__version_info__ = (str(DEEPLUQ_MAJOR_VERSION), str(DEEPLUQ_MINOR_VERSION), str(DEEPLUQ_PATCH_LEVEL))
+__version__ = '.'.join(__version_info__)

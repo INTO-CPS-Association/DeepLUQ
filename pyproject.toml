@@ -1,0 +1,120 @@
+[build-system]
+requires = ["setuptools >= 61.0.0",
+    "wheel",
+    "build",
+    "sphinx"]
+build-backend = "setuptools.build_meta"
+
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+[project]
+name = "deepluq"
+dynamic = ["version"]
+description = "Package to quantify uncertainty in deep learning models"
+license = { file = "LICENSE" }
+readme = "README.md"
+keywords = ["deep learning", "uncertainty quantification", "machine learning"]
+authors = [
+    { name = "Chengjie Lu", email = "chengjielu@simula.no" },
+]
+requires-python = ">=3.8"
+
+maintainers = [
+    { name = "Chengjie Lu", email = "chengjielu@simula.no" },
+]
+
+classifiers = [
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 3 - Alpha",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+
+  # Pick your license as you wish (see also "license" above)
+#  "License :: OSI Approved :: MIT License",
+
+  # Specify the Python versions you support here.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "aiohttp",
+    "hdbscan",
+    "ImageHash",
+    "matplotlib",
+    "numpy",
+    "onnx",
+    "onnxruntime",
+    "opencv-python",
+    "pandas",
+    "pillow",
+    "psutil",
+    "pycocotools",
+    "pypylon",
+    "requests",
+    "scikit-learn",
+    "scipy",
+    "torch",
+    "torchmetrics",
+    "torchvision",
+    "tqdm",
+    "ensemble-boxes",
+]
+
+[project.urls]
+homepage = "https://github.com/chengjie-lu/deepluq"
+documentation = "https://github.com/chengjie-lu/deepluq"
+repository = "https://github.com/chengjie-lu/deepluq"
+
+#[project.entry-points]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter-book",
+    "pre-commit",
+    "pydot",
+    "sphinx-autoapi",
+    "tox"
+]
+
+test = [
+    "coverage",
+    "pytest",
+    "pytest-cov",
+    "pydot"
+]
+
+[project.scripts]
+deepluq = "deepluq.cli.main:run"
+
+[tool.setuptools.dynamic]
+version = {attr = "deepluq.version.__version__"}
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.pylint]
+max-line-length = 120
+disable = [
+    "C0103", # (invalid-name)
+    #    "C0114", # (missing-module-docstring)
+    #    "C0115", # (missing-class-docstring)
+    #    "C0116", # (missing-function-docstring)
+    #    "R0903", # (too-few-public-methods)
+    #    "R0913", # (too-many-arguments)
+    #    "W0105", # (pointless-string-statement)
+]
+
+[tool.isort]
+multi_line_output = 8

@@ -1,0 +1,31 @@
+name: Run tests
+on: [push]
+
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.9","3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{matrix.python-version}}
+
+      - name: Install build tools
+        run: python -m pip install --upgrade pip setuptools wheel uv
+
+      - name: Install project
+        run: uv pip install -v --system .[test]
+
+      - name: List dependencies
+        run: uv pip freeze
+
+      - name: Run tests
+        run: python3 -m pytest tests

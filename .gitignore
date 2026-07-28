@@ -1,0 +1,16 @@
+checkpoints/
+*.png
+*.ckpt
+*.1
+*.onnx
+*.pth
+*.swp
+_build/
+build
+*.ipynb_checkpoints*
+experiment_results_v1/
+dataset/
+dist/
+.idea/
+__pycache__/
+*.egg-info/
