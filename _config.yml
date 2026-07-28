@@ -7,7 +7,7 @@ author: "Chengjie Lu and Thomas Roehr"
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: off
 
 
 # Add a bibtex file so that we can create citations
@@ -39,5 +39,18 @@ sphinx:
     html_last_updated_fmt: "%b %d, %Y"
     todo_include_todos: True
     autoapi_dirs: ['src']
+    autodoc_mock_imports:
+      - torch
+      - torchvision
+      - torchmetrics
+      - onnx
+      - onnxruntime
+      - cv2
+      - hdbscan
+      - ensemble_boxes
+      - aiohttp
+      - pypylon
+      - pycocotools
+      - ImageHash
     # Ref: https://github.com/executablebooks/sphinx-external-toc/issues/36
     suppress_warnings: ["etoc.toctree"]
