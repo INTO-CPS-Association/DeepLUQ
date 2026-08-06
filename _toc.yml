@@ -9,10 +9,11 @@ parts:
     chapters:
       - file: docs/install
       - file: docs/general-usage
+      - file: docs/api
       - file: docs/uq4dl
       - file: docs/uq4vla
       - file: docs/uq4mutation
       - file: CONTRIBUTING
-  - caption: API Documentation
-    chapters:
-      - file: docs/api
+#  - caption: API Documentation
+#    chapters:
+#      - file: docs/api
