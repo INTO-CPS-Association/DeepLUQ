@@ -1,6 +1,6 @@
-# Usage — Uncertainty Quantification for DL Models
+# Usage: Uncertainty Quantification for Perception Models
 
-## Usage 1 — Quantifying Uncertainty of Laptop Refurbishing Software
+## Case Study 1: Laptop Refurbishing Software from DTI
 
 This work employs DeepLUQ to quantify uncertainties in the sticker detection software and provides guidelines for sticker detection software selection based on uncertainty and robustness scores. More details can be found in the accompanying paper (Lu et al., 2025).
 
@@ -50,7 +50,7 @@ The key arguments include:
 - `--drop_rate`: Set the dropout rate.
 - `--save_folder`: Set the folder for saving the experiment results.
 
-## Usage 2 — Quantifying Uncertainty of an Anomaly Detector
+## Case Study 2: Anomaly Detector for Turtlebot4
 
 This work quantifies the uncertainty of a Machine Learning (ML)-based anomaly detector for Turtlebot4. The anomaly detector takes lidar readings from the Turtlebot4 and outputs 0 for normal readings and 1 if an anomaly is detected.
 
