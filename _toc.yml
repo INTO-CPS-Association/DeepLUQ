@@ -8,9 +8,10 @@ parts:
   - caption: Documentation of DeepLUQ
     chapters:
       - file: docs/install
-      - file: docs/usage
+#      - file: docs/usage
       - file: docs/uq4dl
       - file: docs/uq4vla
+      - file: docs/uq4mutation
       - file: CONTRIBUTING
   - caption: API Documentation
     chapters:
