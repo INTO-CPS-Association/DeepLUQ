@@ -1,6 +1,6 @@
-# Usage — Uncertainty Quantification for VLA-enabled Robots
+# Usage: Uncertainty Quantification for VLA-enabled Robots
 
-## Example Usage — Quantifying Uncertainty of VLA-enabled Robotic Systems
+## Case Study: VLA-enabled Robotic Systems
 
 ### System Requirements
 
