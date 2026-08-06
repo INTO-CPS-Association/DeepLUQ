@@ -4,6 +4,14 @@
 
 DeepLUQ provides methods and metrics for capturing and quantifying uncertainty in deep learning models. It currently implements Monte Carlo Dropout (MC-Dropout) for capturing uncertainty in model predictions, and integrates a range of UQ metrics for the two most common deep learning tasks: regression and classification.
 
+```{figure} /figs/deepluq.png
+:alt: DeepLUQ overview
+:width: 600px
+:align: center
+
+Overview of the DeepLUQ uncertainty quantification pipeline.
+```
+
 ## Installation
 
 DeepLUQ can be installed either from source or from PyPI.
@@ -16,7 +24,7 @@ Download the latest release from the [releases page](https://github.com/INTO-CPS
 pip install deepluq-0.1.5.tar.gz
 ```
 
-### Option 2: Install from PyPI
+### Option 2: Install from [PyPI](https://pypi.org/project/deepluq/)
 
 Install the latest published version:
 
