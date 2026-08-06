@@ -1,5 +1,9 @@
 # Usage: Uncertainty Quantification for Perception Models
 
+
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
+
+
 ## Case Study 1: Laptop Refurbishing Software from DTI
 
 This work employs DeepLUQ to quantify uncertainties in the sticker detection software and provides guidelines for sticker detection software selection based on uncertainty and robustness scores. More details can be found in the accompanying paper (Lu et al., 2025).

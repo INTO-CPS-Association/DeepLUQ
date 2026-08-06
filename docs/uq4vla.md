@@ -1,5 +1,7 @@
 # Usage: Uncertainty Quantification for VLA-enabled Robots
 
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
+
 ## Case Study: VLA-enabled Robotic Systems
 
 ### System Requirements
