@@ -7,7 +7,7 @@ This library provides methods and metrics for capturing and quantifying uncertai
 
 ![DeepLUQ Overview](docs/figs/deepluq.png)
 
-
+## Installation
 
 ## Acknowledgement
 
@@ -37,10 +37,13 @@ DeepLUQ is supported by the RoboSAPIENS project funded by the European Commissio
 
 
 
-## References
+[//]: # (## References)
 
-Gal, Yarin, and Zoubin Ghahramani. "Dropout as a bayesian approximation: Representing model uncertainty in deep learning." international conference on machine learning. PMLR, 2016.
+[//]: # ()
+[//]: # (Gal, Yarin, and Zoubin Ghahramani. "Dropout as a bayesian approximation: Representing model uncertainty in deep learning." international conference on machine learning. PMLR, 2016.)
 
-Gal, Yarin. "Uncertainty in deep learning." (2016).
+[//]: # ()
+[//]: # (Gal, Yarin. "Uncertainty in deep learning." &#40;2016&#41;.)
 
-Catak, Ferhat Ozgur, Tao Yue, and Shaukat Ali. "Prediction surface uncertainty quantification in object detection models for autonomous driving." 2021 IEEE International Conference on Artificial Intelligence Testing (AITest). IEEE, 2021.
+[//]: # ()
+[//]: # (Catak, Ferhat Ozgur, Tao Yue, and Shaukat Ali. "Prediction surface uncertainty quantification in object detection models for autonomous driving." 2021 IEEE International Conference on Artificial Intelligence Testing &#40;AITest&#41;. IEEE, 2021.)
