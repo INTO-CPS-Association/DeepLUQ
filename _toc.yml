@@ -9,6 +9,7 @@ parts:
     chapters:
       - file: docs/install
       - file: docs/usage
+      - file: docs/uq4dl
       - file: CONTRIBUTING
   - caption: API Documentation
     chapters:
