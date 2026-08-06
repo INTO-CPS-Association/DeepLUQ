@@ -5,7 +5,7 @@
 
 This library provides methods and metrics for capturing and quantifying uncertainty in deep learning models. It currently includes Monte Carlo Dropout (MC-Dropout) as the UQ method for capturing uncertainties in model predictions. The library integrates various UQ metrics to quantify uncertainties of two common deep-learning tasks, i.e., regression and classification.
 
-![DeepLUQ Overview](docs/figs/deepluq.png)
+<div align=center><img src="https://github.com/INTO-CPS-Association/DeepLUQ/blob/main/docs/figs/deepluq.png" /></div>
 
 ## Installation
 
