@@ -4,11 +4,8 @@ This page describes how to use the metrics provided by `deepluq`. Examples below
 adapted from the test suite in `tests/deepluq/`, which is the best place to see each
 metric exercised with concrete inputs and expected output shapes/ranges.
 
-Install the package first:
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
-```bash
-pip install deepluq
-```
 
 The library exposes three areas of functionality:
 
