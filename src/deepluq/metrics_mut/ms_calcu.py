@@ -19,9 +19,9 @@ import pandas as pd
 from deepluq import metrics_dl
 from sklearn.cluster import DBSCAN
 
-from .ms import compute_iou, identify_matches_misses_ghosts, spatial_aware, un_ms_calcu, \
+from deepluq.metrics_mut.ms import compute_iou, identify_matches_misses_ghosts, spatial_aware, un_ms_calcu, \
     iskill_img, kill_rate_obj, calcu_mean
-from .helper import init_metrics, update_metrics
+from deepluq.metrics_mut.helper import init_metrics, update_metrics
 
 uq = metrics_dl.DLMetrics()
 
