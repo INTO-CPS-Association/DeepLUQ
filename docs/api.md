@@ -1,6 +1,6 @@
 # API Documentation
 
-Full reference of the public classes and functions exposed by the `deepluq` package
+Full reference of the public classes and functions in `deepluq` package
 (`src/deepluq/`). For usage examples, see the [General Usage](general-usage.md) page.
 
 ## `deepluq.metrics_dl`
@@ -17,13 +17,13 @@ Instance attributes (populated as metrics are computed): `variation_ratio`,
 
 #### `cal_vr(events)`
 
-Compute the Variation Ratio (VR) — the proportion of non-modal class predictions.
+Compute the Variation Ratio (VR): the proportion of non-modal class predictions.
 
 | Parameter | Type | Description |
 |---|---|---|
 | `events` | array-like | Model outputs or predictions, shape `(N, num_classes)`. |
 
-**Returns:** `float` — variation ratio, in `[0, 1]`.
+**Returns:** `float`: variation ratio, in `[0, 1]`.
 
 #### `calcu_entropy(events, eps=1e-15, base=2)`
 
@@ -35,7 +35,7 @@ Compute Shannon entropy of a probability distribution.
 | `eps` | `float` | Small constant to avoid `log(0)`. Default `1e-15`. |
 | `base` | `int` | Logarithm base. Default `2`. |
 
-**Returns:** `float` — Shannon entropy, rounded to 5 decimals (clamped to `>= 0`).
+**Returns:** `float`: Shannon entropy, rounded to 5 decimals (clamped to `>= 0`).
 
 #### `calcu_mi(events, eps=1e-15, base=2)`
 
@@ -48,7 +48,7 @@ of the mean prediction with the average per-sample entropy.
 | `eps` | `float` | Small constant to avoid `log(0)`. Default `1e-15`. |
 | `base` | `int` | Logarithm base. Default `2`. |
 
-**Returns:** `float` — mutual information (clamped to `>= 0`).
+**Returns:** `float`: mutual information (clamped to `>= 0`).
 
 #### `calcu_tv(matrix, tag)`
 
@@ -60,7 +60,7 @@ covariance matrix.
 | `matrix` | array-like | Input data matrix. |
 | `tag` | `str` | Either `"bounding_box"` or `"center_point"`. |
 
-**Returns:** `float` — total variance.
+**Returns:** `float`: total variance.
 
 **Raises:** `ValueError` if `tag` is not `"bounding_box"` or `"center_point"`.
 
@@ -73,7 +73,7 @@ Reference: [scholarpedia.org/article/Mutual_information](http://www.scholarpedia
 |---|---|---|
 | `X`, `Y`, `Z` | array-like | Discrete random variables of shape `(n_samples,)`. |
 
-**Returns:** `float` — mutual information (clamped to `>= 0`).
+**Returns:** `float`: mutual information (clamped to `>= 0`).
 
 #### `calcu_prediction_surface(boxes)`
 
@@ -85,7 +85,7 @@ predictions for the same object.
 |---|---|---|
 | `boxes` | array-like | List of bounding boxes `[x1, y1, x2, y2]`. |
 
-**Returns:** `float` — prediction surface area (sum of convex hulls). `-1` if fewer
+**Returns:** `float`: prediction surface area (sum of convex hulls). `-1` if fewer
 than 3 boxes are given; `0` for a corner set with fewer than 3 unique or collinear
 points.
 
@@ -137,21 +137,21 @@ Class attribute: `VARIABILITY = 4`.
 |---|---|---|
 | `actions` | `List[Dict[str, Any]]` | Each dict has `"world_vector"`, `"rot_axangle"`, `"gripper"` keys. Requires >= 2 steps. |
 
-**Returns:** `np.ndarray` — mean absolute 1st-order (position) difference per action
+**Returns:** `np.ndarray`: mean absolute 1st-order (position) difference per action
 dimension.
 
 #### `compute_velocity_instability(actions)`
 
 Same `actions` input as above (requires >= 3 steps).
 
-**Returns:** `np.ndarray` — mean absolute 2nd-order (velocity) difference per
+**Returns:** `np.ndarray`: mean absolute 2nd-order (velocity) difference per
 dimension, scaled by `2.0`.
 
 #### `compute_acceleration_instability(actions)`
 
 Same `actions` input as above (requires >= 4 steps).
 
-**Returns:** `np.ndarray` — mean absolute 3rd-order (acceleration) difference per
+**Returns:** `np.ndarray`: mean absolute 3rd-order (acceleration) difference per
 dimension, scaled by `4.0`.
 
 #### `compute_TCP_position_instability(poses)`
@@ -160,19 +160,19 @@ dimension, scaled by `4.0`.
 |---|---|---|
 | `poses` | `List[List[float]]` | Poses; only the first 3 coordinates `(x, y, z)` are used. Requires >= 2 steps. |
 
-**Returns:** `np.ndarray` — 1st-order instability per coordinate (shape `(3,)`).
+**Returns:** `np.ndarray`: 1st-order instability per coordinate (shape `(3,)`).
 
 #### `compute_TCP_velocity_instability(poses)`
 
 Same `poses` input (requires >= 3 steps).
 
-**Returns:** `np.ndarray` — 2nd-order instability per coordinate (shape `(3,)`).
+**Returns:** `np.ndarray`: 2nd-order instability per coordinate (shape `(3,)`).
 
 #### `compute_TCP_acceleration_instability(poses)`
 
 Same `poses` input (requires >= 4 steps).
 
-**Returns:** `np.ndarray` — 3rd-order instability per coordinate (shape `(3,)`).
+**Returns:** `np.ndarray`: 3rd-order instability per coordinate (shape `(3,)`).
 
 #### `compute_TCP_jerk_instability_gradient(poses)`
 
@@ -182,7 +182,7 @@ Compute TCP jerk via numerical gradients (`np.gradient`, applied 3 times).
 |---|---|---|
 | `poses` | `List[List[float]]` | Poses; only the first 3 coordinates are used. |
 
-**Returns:** `np.ndarray` — jerk magnitude per time step, shape `(len(poses),)`.
+**Returns:** `np.ndarray`: jerk magnitude per time step, shape `(len(poses),)`.
 
 #### `compute_execution_variability(variability_models, image, action_space, instruction, obs, model_name)`
 
@@ -198,7 +198,7 @@ standard deviation of the resulting (normalized) actions across models.
 | `obs` | `Dict[str, Any]` | Must contain `obs["agent"]["eef_pos"]` for `"pi0"` models. |
 | `model_name` | `str` | Selects the calling convention: contains `"pi0"`, `"spatialvla"`, or falls back to `model.step(image)`. |
 
-**Returns:** `np.ndarray` — per-dimension standard deviation of
+**Returns:** `np.ndarray`: per-dimension standard deviation of
 `world_vector` + `rot_axangle` + `gripper` across models.
 
 ## `deepluq.utils`
@@ -207,7 +207,7 @@ standard deviation of the resulting (normalized) actions across models.
 
 Calculate Intersection over Union (IoU) for two normalized `[x1, y1, x2, y2]` boxes.
 
-**Returns:** `float` — IoU, `0` if the union area is `0`.
+**Returns:** `float`: IoU, `0` if the union area is `0`.
 
 #### `wbf_clustering(predictions_dict, iou_thr=0.5, skip_box_thr=0.01)`
 
@@ -283,7 +283,7 @@ Normalize an action dict's `world_vector`, `rot_axangle`, and `gripper` fields i
 | `action` | `dict` | Action with `world_vector`, `rot_axangle`, `gripper` keys. |
 | `normalization_values` | `Any` | Object with `.low` and `.high` bounds (e.g. a gym `Box` action space). |
 
-**Returns:** `dict` — deep copy of `action` with normalized, clipped fields.
+**Returns:** `dict`: deep copy of `action` with normalized, clipped fields.
 
 #### `action_uncertainty(action, mutated_action)`
 
@@ -294,7 +294,7 @@ of it (metamorphic-testing style uncertainty).
 |---|---|---|
 | `action`, `mutated_action` | `dict` | Actions with `world_vector`, `rot_axangle`, `gripper` keys. |
 
-**Returns:** `np.ndarray` — standard deviation per dimension across the two
+**Returns:** `np.ndarray`: standard deviation per dimension across the two
 actions.
 
 ## `deepluq.version`

@@ -7,15 +7,15 @@ metric exercised with concrete inputs and expected output shapes/ranges.
 Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 
-The library exposes three areas of functionality:
+Main functionality:
 
-- `deepluq.metrics_dl.DLMetrics` — UQ metrics for general deep learning models
+- `deepluq.metrics_dl.DLMetrics`: UQ metrics for general deep learning models
   (classification and object detection), see [`test_metrics.py`](../tests/deepluq/test_metrics.py).
-- `deepluq.metrics_vla` — UQ metrics for Vision-Language-Action (VLA) models
+- `deepluq.metrics_vla`: UQ metrics for Vision-Language-Action (VLA) models
   (`TokenMetrics`, `OutputMetrics`), see
   [`test_token_based_metrics.py`](../tests/deepluq/test_token_based_metrics.py) and
   [`test_output_based_metrics.py`](../tests/deepluq/test_output_based_metrics.py).
-- `deepluq.utils` — clustering and box-fusion helpers used to prepare Monte-Carlo
+- `deepluq.utils`: clustering and box-fusion helpers used to prepare Monte-Carlo
   Dropout detections before UQ metrics are computed, see
   [`test_clustering.py`](../tests/deepluq/test_clustering.py) and
   [`test_iou.py`](../tests/deepluq/test_iou.py).
@@ -34,7 +34,7 @@ uq = DLMetrics()
 
 ### Classification uncertainty metrics
 
-**Variation Ratio (VR)** — proportion of predictions that disagree with the modal
+**Variation Ratio (VR)**: proportion of predictions that disagree with the modal
 (most frequent) class across `N` stochastic forward passes. Each row in `events` is a
 per-pass probability distribution over classes.
 
@@ -43,14 +43,14 @@ events = [[0.2, 0.8], [0.1, 0.9], [0.6, 0.4]]
 vr = uq.cal_vr(events)  # -> float in [0, 1]
 ```
 
-**Shannon Entropy** — entropy of a single probability distribution, using natural
+**Shannon Entropy**: entropy of a single probability distribution, using natural
 log by default converted to the given `base` (default base 2).
 
 ```python
 entropy = uq.calcu_entropy([0.5, 0.5])  # -> 1.0 for a uniform 2-class distribution
 ```
 
-**Mutual Information (MI)** — combines the entropy of the mean prediction across
+**Mutual Information (MI)**: combines the entropy of the mean prediction across
 passes with the average per-pass entropy, giving a measure of predictive uncertainty
 that accounts for disagreement between passes.
 
@@ -63,7 +63,7 @@ mi = uq.calcu_mi(events)  # -> float
 
 ### Total Variance (TV)
 
-**Total variance** — trace of the covariance matrix of repeated predictions, either
+**Total variance**: trace of the covariance matrix of repeated predictions, either
 for bounding-box corners (`"bounding_box"`) or box center points (`"center_point"`).
 An invalid `tag` raises `ValueError`.
 
@@ -92,7 +92,7 @@ mi = uq.calcu_mutual_information(X, Y, Z)  # -> float >= 0
 
 ### Geometric uncertainty: prediction surface
 
-**Prediction surface** — sum of convex-hull areas formed by each corner (top-left,
+**Prediction surface**: sum of convex-hull areas formed by each corner (top-left,
 top-right, bottom-left, bottom-right) of repeated bounding-box predictions for the
 same object. Larger surfaces indicate greater localization uncertainty. At least 3
 non-collinear boxes are required per corner set; otherwise the metric returns `-1`.
@@ -114,7 +114,7 @@ uq.calcu_prediction_surface([[0, 0, 1, 1]])  # -> -1
 
 ### Token-based metrics (`TokenMetrics`)
 
-`TokenMetrics` computes per-token uncertainty/confidence metrics directly from a
+`TokenMetrics` computes token-level uncertainty metrics directly from a
 VLA model's output logits (shape `(batch_size, num_classes)`).
 
 ```python
@@ -135,9 +135,9 @@ entropy, max_prob, pcs, deepgini = tm.calculate_metrics(logits)
 `calculate_metrics` returns four lists (one value per sample):
 
 - **Shannon entropy** of the softmax distribution.
-- **Max token probability** — confidence of the top predicted token.
-- **PCS (Prediction Confidence Score)** — gap between the top-1 and top-2 probabilities.
-- **DeepGini** — `1 - sum(p^2)`.
+- **Max token probability**: confidence of the top predicted token.
+- **PCS (Prediction Confidence Score)**: gap between the top-1 and top-2 probabilities.
+- **DeepGini**: `1 - sum(p^2)`.
 
 For a confident (peaked) prediction, entropy/DeepGini are close to 0 and
 max-probability/PCS are close to 1:
@@ -170,7 +170,7 @@ assert tm.shannon_entropy_list == []
 ### Output-based instability and variability metrics (`OutputMetrics`)
 
 `OutputMetrics` quantifies how unstable a VLA model's predicted actions or
-tool-center-point (TCP) poses are over a rollout, and how much variability there is
+tool-center-point (TCP) poses, and how much variability there is
 across an ensemble of models given the same observation.
 
 ```python
@@ -179,7 +179,7 @@ from deepluq.metrics_vla import OutputMetrics
 om = OutputMetrics()
 ```
 
-**Action-based instability** — each action is a dict with `"world_vector"`,
+**Action-based instability**: each action is a dict with `"world_vector"`,
 `"rot_axangle"`, and `"gripper"` keys. Instability is the mean absolute successive
 difference (position = 1st order, velocity = 2nd order, acceleration = 3rd order)
 across the rollout, returned per action dimension.
@@ -194,7 +194,7 @@ velocity_instability = om.compute_velocity_instability(actions)      # requires 
 acceleration_instability = om.compute_acceleration_instability(actions)  # requires >= 4 steps
 ```
 
-**TCP instability** — same idea, but computed from a list of `[x, y, z, ...]` poses
+**TCP instability**: same idea, but computed from a list of `[x, y, z, ...]` poses
 (only the first three coordinates are used).
 
 ```python
@@ -208,7 +208,7 @@ tcp_acceleration = om.compute_TCP_acceleration_instability(poses)
 jerk = om.compute_TCP_jerk_instability_gradient(poses)
 ```
 
-**Execution variability** — standard deviation of actions produced by an ensemble
+**Execution variability**: standard deviation of actions produced by an ensemble
 of models (or repeated stochastic rollouts of the same model) given the same
 observation, used to quantify epistemic uncertainty in action selection.
 
