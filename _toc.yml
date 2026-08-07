@@ -5,14 +5,14 @@
 format: jb-book
 root: README
 parts:
-  - caption: Documentation of DeepLUQ
+  - caption: DeepLUQ Documentation
     chapters:
       - file: docs/install
       - file: docs/api
       - file: docs/general-usage
       - file: docs/uq4dl
       - file: docs/uq4vla
-      - file: docs/uq4mutation
+      - file: docs/uq4ma
       - file: CONTRIBUTING
 #  - caption: API Documentation
 #    chapters:

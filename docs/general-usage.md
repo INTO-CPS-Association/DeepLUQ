@@ -19,6 +19,10 @@ Main functionality:
   Dropout detections before UQ metrics are computed, see
   [`test_clustering.py`](../tests/deepluq/test_clustering.py) and
   [`test_iou.py`](../tests/deepluq/test_iou.py).
+- `deepluq.metrics_mut`: Uncertainty-Aware Mutation Score (UA-MS) computation for
+  MC-Dropout / MC-DropBlock mutants of object detection models, see
+  [Uncertainty-Aware Mutation Analysis](uq4ma.md) for the full concepts and setup
+  walkthrough.
 
 ## Deep Learning UQ Metrics (`DLMetrics`)
 
@@ -295,6 +299,38 @@ result = metric(preds, targets)
 
 per_box_iou = intersection_over_union(preds[0]["boxes"], targets[0]["boxes"], aggregate=False)
 ```
+
+## Uncertainty-Aware Mutation Analysis (`deepluq.metrics_mut`)
+
+`deepluq.metrics_mut` computes the Uncertainty-Aware Mutation Score (UA-MS) for
+an object detection model: it compares the original model's predictions against
+predictions from MC-Dropout / MC-DropBlock *mutants*, and scores how much each
+mutant's outputs — and predictive uncertainty — diverge from the original.
+Unlike the metrics above, this module reads prediction files from disk (the
+output of running a model repeatedly under mutation) rather than working on
+in-memory arrays, so see [Uncertainty-Aware Mutation Analysis](uq4ma.md) for the
+required file layout and the full concepts (matches/misses/ghosts, Img-MS,
+Obj-MS, MS_iou, UA-MS). The entry point for scoring one test case against one
+mutant is:
+
+```python
+from pathlib import Path
+from deepluq.metrics_mut.ms_calcu import ms_per_test_case_mutant
+
+iskill_miss, iskill_ghost, iskill_miss_ghost, ms_obj_level, \
+    match_metrics, miss_metrics, ghost_metrics = ms_per_test_case_mutant(
+        test_case=Path("image_0001"),
+        org_model="fasterrcnn_resnet50_fpn",
+        mutation_operator="mc_dropout",   # or "mc_dropblock"
+        mutation_rate=0.3,                # or (dropout_rate, block_size) for mc_dropblock
+        case_study="/path/to/experiment_results_root",
+        T=10,
+    )
+```
+
+`calcu_mutation_score` scores a whole test set against every mutant of an
+operator and writes one CSV per mutant, and `ms_calcu_exec` runs that for every
+model in a case study — see [uq4ma.md](uq4ma.md) for both.
 
 ## Running the tests
 
