@@ -1,17 +1,17 @@
 # Reference API
 
 Full reference of the public classes and functions in `deepluq` package
-(`src/deepluq/`). For usage examples, see the [General Usage](general-usage.md) page.
+(`src/deepluq/`).
 
 ## `deepluq.metrics_dl`
 
 ### `class DLMetrics`
 
-A class to compute various Uncertainty Quantification (UQ) metrics for Deep
+A class to compute Uncertainty Quantification (UQ) metrics for Deep
 Learning, including variation ratio, entropy, mutual information, total variance,
 and prediction surface using convex hulls.
 
-Instance attributes (populated as metrics are computed): `variation_ratio`,
+Attributes: `variation_ratio`,
 `shannon_entropy`, `mutual_information`, `total_var_center_point`,
 `total_var_bounding_box`, `prediction_surface`, `hull`, `box`.
 
@@ -93,13 +93,15 @@ points.
 
 ### `class TokenMetrics`
 
-Computes per-token uncertainty/confidence metrics from a VLA model's output
-logits. Instance attributes: `shannon_entropy_list`, `token_prob`, `pcs`,
+Computes token-level uncertainty metrics from a Vision-Language-Action (VLA) model's output
+logits. 
+
+Attributes: `shannon_entropy_list`, `token_prob`, `pcs`,
 `token_prob_inv`, `pcs_inv`, `deepgini`.
 
 #### `calculate_metrics(logits)`
 
-Compute Shannon entropy, max token probability, PCS, and DeepGini from raw logits.
+Compute Shannon entropy, max token probability, prediction confidence score (PCS), and DeepGini from raw logits.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -201,107 +203,10 @@ standard deviation of the resulting (normalized) actions across models.
 **Returns:** `np.ndarray`: per-dimension standard deviation of
 `world_vector` + `rot_axangle` + `gripper` across models.
 
-## `deepluq.utils`
-
-#### `compute_iou(box1, box2)`
-
-Calculate Intersection over Union (IoU) for two normalized `[x1, y1, x2, y2]` boxes.
-
-**Returns:** `float`: IoU, `0` if the union area is `0`.
-
-#### `wbf_clustering(predictions_dict, iou_thr=0.5, skip_box_thr=0.01)`
-
-Apply Weighted Boxes Fusion (WBF) and group the original input boxes into their
-respective clusters alongside the final merged detection.
-
-| Parameter | Type | Description |
-|---|---|---|
-| `predictions_dict` | `dict` | Keyed by prediction id, each value a dict with `box`, `box_n`, `score`, `label`, and optional `logit`. |
-| `iou_thr` | `float` | IoU threshold for WBF and for matching original boxes to fused clusters. Default `0.5`. |
-| `skip_box_thr` | `float` | Score threshold below which boxes are skipped by WBF. Default `0.01`. |
-
-**Returns:** `dict` keyed `cluster_0`, `cluster_1`, ... Each value contains the
-member `box`, `box_n`, `score`, `label`, `logit` lists plus a `detection` entry with
-the fused `box_n`, `box`, `score`, `label`, and averaged `logit`.
-
-### `class DBSCANCluster`
-
-#### `__init__(x, eps=8.5, min_samples=8)`
-
-Cluster box-derived points with HDBSCAN (`min_cluster_size=3`).
-
-| Parameter | Type | Description |
-|---|---|---|
-| `x` | array-like | Points to cluster, shape `(N, >=4)` (e.g. `x1, y1, x2, y2, center_x, center_y`). |
-| `eps` | `float` | Unused by the current HDBSCAN implementation (kept for API compatibility). Default `8.5`. |
-| `min_samples` | `int` | Unused by the current HDBSCAN implementation (kept for API compatibility). Default `8`. |
-
-Populates `self.cluster`, `self.mc_locations`, `self.mc_locations_df`, and
-`self.cluster_labels`.
-
-#### `cluster_preds(preds)`
-
-| Parameter | Type | Description |
-|---|---|---|
-| `preds` | `dict` | Predictions keyed by id, each with `box`, `label`, `score`, `logit`. |
-
-**Returns:** `dict` keyed `label_0`, `label_1`, ... grouping the matching
-`box`/`label`/`score`/`logit` lists per cluster found by `__init__`.
-
-#### `cluster(mc_locations)`
-
-Cluster MC-Dropout box predictions with `DBSCAN(eps=100, min_samples=2)` and
-compute the convex-hull surface per cluster corner set.
-
-| Parameter | Type | Description |
-|---|---|---|
-| `mc_locations` | array-like | Box corner/center points, shape `(N, 4)` (`x1, y1, x2, y2`). |
-
-**Returns:** `None` (diagnostic/summary function; does not return the computed
-surfaces).
-
-#### `get_kdist_plot(X=None, k=None, radius_nbrs=1.0)`
-
-Plot the sorted k-nearest-neighbor distance for each point, useful for choosing a
-DBSCAN `eps` value.
-
-| Parameter | Type | Description |
-|---|---|---|
-| `X` | array-like | Points to analyze. |
-| `k` | `int` | Number of neighbors. |
-| `radius_nbrs` | `float` | Neighborhood radius passed to `NearestNeighbors`. Default `1.0`. |
-
-**Returns:** `None` (shows a matplotlib plot).
-
-#### `normalize_action(action, normalization_values)`
-
-Normalize an action dict's `world_vector`, `rot_axangle`, and `gripper` fields into
-`[0, 1]` using `normalization_values.low` / `.high`.
-
-| Parameter | Type | Description |
-|---|---|---|
-| `action` | `dict` | Action with `world_vector`, `rot_axangle`, `gripper` keys. |
-| `normalization_values` | `Any` | Object with `.low` and `.high` bounds (e.g. a gym `Box` action space). |
-
-**Returns:** `dict`: deep copy of `action` with normalized, clipped fields.
-
-#### `action_uncertainty(action, mutated_action)`
-
-Compute per-dimension standard deviation between an action and a mutated version
-of it (metamorphic-testing style uncertainty).
-
-| Parameter | Type | Description |
-|---|---|---|
-| `action`, `mutated_action` | `dict` | Actions with `world_vector`, `rot_axangle`, `gripper` keys. |
-
-**Returns:** `np.ndarray`: standard deviation per dimension across the two
-actions.
-
 ## `deepluq.metrics_mut`
 
 Computes the Uncertainty-Aware Mutation Score (UA-MS) for MC-Dropout /
-MC-DropBlock mutants of an object detection model. See [uq4ma.md](uq4ma.md) for
-the expected input layout and full walkthrough.
+MC-DropBlock mutants of an object detection model. See [uq4ma.md](uq4ma.md) for usage examples.
 
 #### `ms_calcu.process_match_metrics(repetitions)`
 
@@ -402,6 +307,103 @@ into the `{"label_i": {"box", "label", "score", "logit"}}` format expected by
 
 Accumulate per-test-case results into the CSV-ready metrics dict, and
 pretty-print raw match/miss/ghost metrics for debugging.
+
+
+## `deepluq.utils`
+
+#### `compute_iou(box1, box2)`
+
+Calculate Intersection over Union (IoU) for two normalized `[x1, y1, x2, y2]` boxes.
+
+**Returns:** `float`: IoU, `0` if the union area is `0`.
+
+#### `wbf_clustering(predictions_dict, iou_thr=0.5, skip_box_thr=0.01)`
+
+Apply Weighted Boxes Fusion (WBF) and group the original input boxes into their
+respective clusters alongside the final merged detection.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `predictions_dict` | `dict` | Keyed by prediction id, each value a dict with `box`, `box_n`, `score`, `label`, and optional `logit`. |
+| `iou_thr` | `float` | IoU threshold for WBF and for matching original boxes to fused clusters. Default `0.5`. |
+| `skip_box_thr` | `float` | Score threshold below which boxes are skipped by WBF. Default `0.01`. |
+
+**Returns:** `dict` keyed `cluster_0`, `cluster_1`, ... Each value contains the
+member `box`, `box_n`, `score`, `label`, `logit` lists plus a `detection` entry with
+the fused `box_n`, `box`, `score`, `label`, and averaged `logit`.
+
+### `class DBSCANCluster`
+
+#### `__init__(x, eps=8.5, min_samples=8)`
+
+Cluster box-derived points with HDBSCAN (`min_cluster_size=3`).
+
+| Parameter | Type | Description |
+|---|---|---|
+| `x` | array-like | Points to cluster, shape `(N, >=4)` (e.g. `x1, y1, x2, y2, center_x, center_y`). |
+| `eps` | `float` | Unused by the current HDBSCAN implementation (kept for API compatibility). Default `8.5`. |
+| `min_samples` | `int` | Unused by the current HDBSCAN implementation (kept for API compatibility). Default `8`. |
+
+Populates `self.cluster`, `self.mc_locations`, `self.mc_locations_df`, and
+`self.cluster_labels`.
+
+#### `cluster_preds(preds)`
+
+| Parameter | Type | Description |
+|---|---|---|
+| `preds` | `dict` | Predictions keyed by id, each with `box`, `label`, `score`, `logit`. |
+
+**Returns:** `dict` keyed `label_0`, `label_1`, ... grouping the matching
+`box`/`label`/`score`/`logit` lists per cluster found by `__init__`.
+
+#### `cluster(mc_locations)`
+
+Cluster MC-Dropout box predictions with `DBSCAN(eps=100, min_samples=2)` and
+compute the convex-hull surface per cluster corner set.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `mc_locations` | array-like | Box corner/center points, shape `(N, 4)` (`x1, y1, x2, y2`). |
+
+**Returns:** `None` (diagnostic/summary function; does not return the computed
+surfaces).
+
+#### `get_kdist_plot(X=None, k=None, radius_nbrs=1.0)`
+
+Plot the sorted k-nearest-neighbor distance for each point, useful for choosing a
+DBSCAN `eps` value.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `X` | array-like | Points to analyze. |
+| `k` | `int` | Number of neighbors. |
+| `radius_nbrs` | `float` | Neighborhood radius passed to `NearestNeighbors`. Default `1.0`. |
+
+**Returns:** `None` (shows a matplotlib plot).
+
+#### `normalize_action(action, normalization_values)`
+
+Normalize an action dict's `world_vector`, `rot_axangle`, and `gripper` fields into
+`[0, 1]` using `normalization_values.low` / `.high`.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `action` | `dict` | Action with `world_vector`, `rot_axangle`, `gripper` keys. |
+| `normalization_values` | `Any` | Object with `.low` and `.high` bounds (e.g. a gym `Box` action space). |
+
+**Returns:** `dict`: deep copy of `action` with normalized, clipped fields.
+
+#### `action_uncertainty(action, mutated_action)`
+
+Compute per-dimension standard deviation between an action and a mutated version
+of it (metamorphic-testing style uncertainty).
+
+| Parameter | Type | Description |
+|---|---|---|
+| `action`, `mutated_action` | `dict` | Actions with `world_vector`, `rot_axangle`, `gripper` keys. |
+
+**Returns:** `np.ndarray`: standard deviation per dimension across the two
+actions.
 
 ## `deepluq.version`
 
