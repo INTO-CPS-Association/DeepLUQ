@@ -19,9 +19,7 @@ Main functionality:
   [`test_clustering.py`](../tests/deepluq/test_clustering.py) and
   [`test_iou.py`](../tests/deepluq/test_iou.py).
 - `deepluq.metrics_mut`: Uncertainty-Aware Mutation Score (UA-MS) computation for
-  MC-Dropout / MC-DropBlock mutants of object detection models, see
-  [Uncertainty-Aware Mutation Analysis](uq4ma.md) for the full concepts and setup
-  walkthrough.
+  MC-Dropout / MC-DropBlock mutants of object detection models.
 
 ## Deep Learning UQ Metrics (`DLMetrics`)
 
