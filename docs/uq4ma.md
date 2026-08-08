@@ -6,20 +6,20 @@ Follow the installation and setup instructions in the [Installation Page](https:
 object detection models: it compares a model's predictions against predictions
 from *mutants* of that model produced by MC-Dropout and MC-DropBlock, and reports
 how much each mutant's outputs (and predictive uncertainty) diverge from the
-original — the Uncertainty-Aware Mutation Score (UA-MS).
+original: the Uncertainty-Aware Mutation Score (UA-MS).
 
 ## Concepts
 
-- **Mutation operator** — the source of randomness injected into the model to
+- **Mutation operator**: the source of randomness injected into the model to
   produce mutants:
-  - `mc_dropout` — Monte Carlo Dropout applied at a given dropout rate.
-  - `mc_dropblock` — Monte Carlo DropBlock applied at a given
+  - `mc_dropout`: Monte Carlo Dropout applied at a given dropout rate.
+  - `mc_dropblock`: Monte Carlo DropBlock applied at a given
     `(dropout_rate, block_size)` pair.
-- **Mutant** — one specific configuration of a mutation operator (e.g.
+- **Mutant**: one specific configuration of a mutation operator (e.g.
   `mc_dropout` at rate `0.3`, or `mc_dropblock` at rate `0.1` with block size `5`).
   The unmutated model corresponds to rate `0` (`mc_dropout_0_...` /
   `mc_dropblock_0_1_...`).
-- **Repetition** — because MC-Dropout/MC-DropBlock are stochastic, each mutant is
+- **Repetition**: because MC-Dropout/MC-DropBlock are stochastic, each mutant is
   run `T` times (`T=10` by default) per test image to get a distribution of
   predictions rather than a single one.
 
@@ -37,15 +37,15 @@ class-probability vector $p_i$.
 For an original model's output $O$ and a mutant's output $O'$ on the same
 input:
 
-- **Match** — a pair $(d_i, d'_j) \in O \times O'$ is a match if
+- **Match**: a pair $(d_i, d'_j) \in O \times O'$ is a match if
   $\mathrm{IoU}(b_i, b'_j) > \theta_{\mathrm{IoU}} \land c_i = c'_j$ (deepluq
   uses $\theta_{\mathrm{IoU}} = 0.5$ and finds the matching via Hungarian
   assignment on the IoU cost). $\mathcal{S}_{match}$ is the set of all matched
   pairs.
-- **Miss** — a detection $d_i \in O$ with no counterpart in
+- **Miss**: a detection $d_i \in O$ with no counterpart in
   $\mathcal{S}_{match}$: an object the original model found but the mutant did
   not. $\mathcal{S}_{miss}$ is the set of all misses.
-- **Ghost** — a detection $d'_j \in O'$ with no counterpart in
+- **Ghost**: a detection $d'_j \in O'$ with no counterpart in
   $\mathcal{S}_{match}$: a false positive introduced by the mutation.
   $\mathcal{S}_{ghost}$ is the set of all ghosts.
 
@@ -54,19 +54,19 @@ three sets for one repetition of one test image. `deepluq.metrics_mut.ms_calcu`
 then defines four mutation scores on top of $\mathcal{S}_{match}$,
 $\mathcal{S}_{miss}$, $\mathcal{S}_{ghost}$, computed over `T` repetitions:
 
-1. **Image-level Mutation Score (Img-MS)** — the traditional, output-agnostic
+1. **Image-level Mutation Score (Img-MS)**: the traditional, output-agnostic
    notion of "killed": a mutant is killed if, for at least one test case, the
    presence of misses/ghosts/either across the `T` repetitions is
    *statistically significant* (not just noise), per a one-sided binomial test
    against a null miss/ghost rate. Img-MS is the fraction of mutants killed.
    Reported as `Img-MS_miss`, `Img-MS_ghost`, `Img-MS_mg`.
-2. **Object-level Mutation Score (Obj-MS)** — a finer-grained score computed
+2. **Object-level Mutation Score (Obj-MS)**: a finer-grained score computed
    directly from set sizes, e.g.
    $MS_{obj}^{miss} = |\mathcal{S}_{miss}| / (|\mathcal{S}_{miss}| + |\mathcal{S}_{match}|)$,
    and analogously for `ghost` and the combined `mg` (miss-or-ghost) variant.
-3. **IoU-based Mutation Score (MS_iou)** — for matched objects only, the mean
+3. **IoU-based Mutation Score (MS_iou)**: for matched objects only, the mean
    spatial degradation $\frac{1}{|\mathcal{S}_{match}|}\sum (1 - \mathrm{IoU}(b_i, b'_j))$.
-4. **Uncertainty-Aware Mutation Score (UA-MS)** — for each of
+4. **Uncertainty-Aware Mutation Score (UA-MS)**: for each of
    $\mathcal{S}_{match}$, $\mathcal{S}_{miss}$, $\mathcal{S}_{ghost}$ and each
    of the 5 `deepluq.metrics_dl.DLMetrics` uncertainty metrics (VR, Shannon
    Entropy, MI, Total Variance, Prediction Surface), $UA\text{-}MS = |UM_{orig} - UM_{mut}|$:
@@ -74,13 +74,13 @@ $\mathcal{S}_{miss}$, $\mathcal{S}_{ghost}$, computed over `T` repetitions:
    (15 scores in total: 3 object sets × 5 metrics). For miss/ghost objects
    there is no counterpart detection to diff against, so `deepluq.metrics_mut`
    instead scores the *original* detection's own uncertainty, weighted by how
-   consistently it was missed/hallucinated across repetitions — a confidently
+   consistently it was missed/hallucinated across repetitions: a confidently
    missed or confidently hallucinated object contributes a larger score than an
    already-uncertain one.
 
 ## Setting up MC-Dropout / MC-DropBlock mutation operators
 
-`deepluq.metrics_mut` does not itself run inference — it scores prediction
+`deepluq.metrics_mut` does not itself run inference: it scores prediction
 outputs that were already produced by executing a detection model repeatedly
 under MC-Dropout / MC-DropBlock mutation (this is the same execution step
 described in [Uncertainty Quantification for Perception Models](uq4dl.md), just
@@ -144,13 +144,13 @@ iskill_miss, iskill_ghost, iskill_miss_ghost, ms_obj_level, \
 This loads the `T` repetitions for the original (`rate=0`) and mutant
 (`rate=0.3`) runs, matches detections per repetition, and returns:
 
-- `iskill_miss` / `iskill_ghost` / `iskill_miss_ghost` — binomial-test results
+- `iskill_miss` / `iskill_ghost` / `iskill_miss_ghost`: binomial-test results
   (`p_value`, `cohens_h`, `power`, `observed_success`) for whether the mutant's
   miss/ghost/either rate across repetitions is significantly above a `0.01`
   noise floor (`deepluq.metrics_mut.ms.check_kill_binomial_test`).
-- `ms_obj_level` — mean/std object-level kill rates for miss, ghost, and
+- `ms_obj_level`: mean/std object-level kill rates for miss, ghost, and
   miss-or-ghost, across all objects in the test case.
-- `match_metrics`, `miss_metrics`, `ghost_metrics` — dicts averaged over all
+- `match_metrics`, `miss_metrics`, `ghost_metrics`: dicts averaged over all
   matched / missed / ghost objects, each with `vr_ms`, `ie_ms`, `mi_ms`,
   `var_ms`, `ps_ms` (absolute divergence in variation ratio, entropy, mutual
   information, total variance, and prediction surface between original and
@@ -200,7 +200,7 @@ ms_calcu_exec(case_study_name="sticker_detection", case_study=case_study, save_f
 ```
 
 For each model, this loads `common_images_{model}_filtered.pkl` (a pickled list
-of `Path`s naming the common test images to evaluate — e.g. images every mutant
+of `Path`s naming the common test images to evaluate: e.g. images every mutant
 successfully produced predictions for) and runs `calcu_mutation_score` for both
 `mc_dropblock` and `mc_dropout`.
 
@@ -222,13 +222,22 @@ match/miss/ghost metric lists returned by `process_match_metrics`,
 `process_missing_set`, and `process_ghost_set_dbscan` while debugging a single
 test case.
 
-```{note}
-These CSVs give you, per test case, the *ingredients* for each score (the
-binomial-test stats for Img-MS, the raw Obj-MS/MS_iou/UA-MS ratios), but not yet
-the final numbers from the formal definitions above. Img-MS (Eq. 7) is a ratio
-over the set of *mutants*: for each mutant, `isKilled` is True if **any** test
-case's `p_value` is significant, and Img-MS is the fraction of mutants killed —
-that reduction (per-mutant `isKilled`, then the ratio across all mutant CSVs
-produced by `calcu_mutation_score`) isn't implemented in `metrics_mut` yet. If
-you want it added as a `deepluq.metrics_mut.ms_calcu` function, let me know.
-```
+[//]: # (```{note})
+
+[//]: # (These CSVs give you, per test case, the *ingredients* for each score &#40;the)
+
+[//]: # (binomial-test stats for Img-MS, the raw Obj-MS/MS_iou/UA-MS ratios&#41;, but not yet)
+
+[//]: # (the final numbers from the formal definitions above. Img-MS &#40;Eq. 7&#41; is a ratio)
+
+[//]: # (over the set of *mutants*: for each mutant, `isKilled` is True if **any** test)
+
+[//]: # (case's `p_value` is significant, and Img-MS is the fraction of mutants killed:)
+
+[//]: # (that reduction &#40;per-mutant `isKilled`, then the ratio across all mutant CSVs)
+
+[//]: # (produced by `calcu_mutation_score`&#41; isn't implemented in `metrics_mut` yet. If)
+
+[//]: # (you want it added as a `deepluq.metrics_mut.ms_calcu` function, let me know.)
+
+[//]: # (```)
