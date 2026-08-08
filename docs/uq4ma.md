@@ -1,6 +1,6 @@
 # Usage: Uncertainty-Aware Mutation Analysis for DL Models
 
-Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
+[//]: # (Follow the installation and setup instructions in the [Installation Page]&#40;https://into-cps-association.github.io/DeepLUQ/docs/install.html&#41;.)
 
 `deepluq.metrics_mut` implements **Uncertainty-Aware Mutation Testing (UAMT)** for
 object detection models: it compares a model's predictions against predictions
@@ -222,22 +222,6 @@ match/miss/ghost metric lists returned by `process_match_metrics`,
 `process_missing_set`, and `process_ghost_set_dbscan` while debugging a single
 test case.
 
-[//]: # (```{note})
+### Reference
 
-[//]: # (These CSVs give you, per test case, the *ingredients* for each score &#40;the)
-
-[//]: # (binomial-test stats for Img-MS, the raw Obj-MS/MS_iou/UA-MS ratios&#41;, but not yet)
-
-[//]: # (the final numbers from the formal definitions above. Img-MS &#40;Eq. 7&#41; is a ratio)
-
-[//]: # (over the set of *mutants*: for each mutant, `isKilled` is True if **any** test)
-
-[//]: # (case's `p_value` is significant, and Img-MS is the fraction of mutants killed:)
-
-[//]: # (that reduction &#40;per-mutant `isKilled`, then the ratio across all mutant CSVs)
-
-[//]: # (produced by `calcu_mutation_score`&#41; isn't implemented in `metrics_mut` yet. If)
-
-[//]: # (you want it added as a `deepluq.metrics_mut.ms_calcu` function, let me know.)
-
-[//]: # (```)
+Chengjie Lu, Jiahui Wu, Shaukat Ali, Malaika Din Hashmi, Sebastian Mathias Thomle Mason, Francois Picard, Mikkel Labori Olsen, and Thomas Peyrucain. "UAMTERS: Uncertainty-Aware Mutation Analysis for DL-enabled Robotic Software." arXiv preprint arXiv:2602.20334 (2026). [Preprint](https://arxiv.org/abs/2602.20334)

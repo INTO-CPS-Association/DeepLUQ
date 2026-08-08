@@ -1,6 +1,5 @@
 # Usage: Uncertainty Quantification for VLA-enabled Robots
 
-Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 ## Case Study: VLA-enabled Robotic Systems
 
@@ -17,6 +16,8 @@ Clone this repo:
 ```bash
 git clone https://github.com/pablovalle/VLA_UQ.git
 ```
+
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 Create a virtual environment and install the necessary dependencies:
 
@@ -40,6 +41,7 @@ pip install torch==2.3.1 torchvision==0.18.1 timm==0.9.10 tokenizers==0.15.2 acc
 pip install flash-attn==2.6.1 --no-build-isolation
 ```
 
+
 ### Configure VLA (OpenVLA as Example)
 
 Refer to <https://github.com/pablovalle/VLA_UQ> for configuration guidelines covering more VLA models.
@@ -61,3 +63,7 @@ cd experiments
 # available models: openvla-7b, pi0, spatialvla-4b
 ./run_UQ_exp.sh <env_name> <model_name>
 ```
+
+### Reference
+
+Valle, Pablo, Chengjie Lu, Shaukat Ali, and Aitor Arrieta. "Evaluating Uncertainty and Quality of Visual Language Action-enabled Robots." arXiv preprint arXiv:2507.17049 (2025). [Preprint](https://arxiv.org/pdf/2507.17049)

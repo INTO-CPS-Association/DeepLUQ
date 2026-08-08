@@ -1,7 +1,6 @@
 # Usage: Uncertainty Quantification for Perception Models
 
 
-Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 
 ## Case Study 1: Laptop Refurbishing Software from DTI
@@ -16,7 +15,10 @@ This work employs DeepLUQ to quantify uncertainties in the sticker detection sof
 
 ### Setup
 
+
 Clone the project (source code available at <https://github.com/chengjie-lu/sticker-detection-uncertainty-quantification>).
+
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 Install Anaconda:
 
@@ -54,6 +56,10 @@ The key arguments include:
 - `--drop_rate`: Set the dropout rate.
 - `--save_folder`: Set the folder for saving the experiment results.
 
+### Reference
+
+Chengjie Lu, Jiahui Wu, Shaukat Ali, and Mikkel Labori Olsen. "Assessing the Uncertainty and Robustness of the Laptop Refurbishing Software". In 18th IEEE International Conference on Software Testing, Verification and Validation (ICST) 2025. [Preprint](https://arxiv.org/pdf/2409.03782)
+
 ## Case Study 2: Anomaly Detector for Turtlebot4
 
 This work quantifies the uncertainty of a Machine Learning (ML)-based anomaly detector for Turtlebot4. The anomaly detector takes lidar readings from the Turtlebot4 and outputs 0 for normal readings and 1 if an anomaly is detected.
@@ -64,9 +70,12 @@ This work quantifies the uncertainty of a Machine Learning (ML)-based anomaly de
 
 ### Setup
 
+
 Clone the project (source code available at <https://github.com/chengjie-lu/anomoly-detector-uq.git>).
 
-Install DeepLUQ and other required libraries:
+Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
+
+Install required libraries:
 
 ```bash
 cd anomaly_detector

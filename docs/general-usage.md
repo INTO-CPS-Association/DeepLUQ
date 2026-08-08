@@ -6,7 +6,6 @@ metric exercised with concrete inputs and expected output shapes/ranges.
 
 Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
-
 Main functionality:
 
 - `deepluq.metrics_dl.DLMetrics`: UQ metrics for general deep learning models
@@ -257,7 +256,7 @@ clusters = wbf_clustering(predictions, iou_thr=0.5, skip_box_thr=0.01)
 
 Each entry in the returned dict (keyed `cluster_0`, `cluster_1`, ...) contains the
 member `box`/`box_n`/`score`/`label`/`logit` lists plus a `detection` entry with the
-fused box, score, label, and averaged logit — ready to feed into `DLMetrics`.
+fused box, score, label, and averaged logit.
 
 `compute_iou(box1, box2)` is the plain IoU helper (normalized `[x1, y1, x2, y2]`
 boxes) used internally by `wbf_clustering` to match original boxes back to their
@@ -273,7 +272,7 @@ predictions with DBSCAN and reports the convex-hull surface per cluster.
 ```python
 from deepluq.utils import DBSCANCluster
 
-# x: array of shape (N, >=4) — e.g. [x1, y1, x2, y2, center_x, center_y]
+# x: array of shape (N, >=4), e.g. [x1, y1, x2, y2, center_x, center_y]
 clustering = DBSCANCluster(x)
 clustered_preds = clustering.cluster_preds(preds)
 ```
@@ -305,7 +304,7 @@ per_box_iou = intersection_over_union(preds[0]["boxes"], targets[0]["boxes"], ag
 `deepluq.metrics_mut` computes the Uncertainty-Aware Mutation Score (UA-MS) for
 an object detection model: it compares the original model's predictions against
 predictions from MC-Dropout / MC-DropBlock *mutants*, and scores how much each
-mutant's outputs — and predictive uncertainty — diverge from the original.
+mutant's outputs and predictive uncertainty diverge from the original.
 Unlike the metrics above, this module reads prediction files from disk (the
 output of running a model repeatedly under mutation) rather than working on
 in-memory arrays, so see [Uncertainty-Aware Mutation Analysis](uq4ma.md) for the
@@ -330,7 +329,7 @@ iskill_miss, iskill_ghost, iskill_miss_ghost, ms_obj_level, \
 
 `calcu_mutation_score` scores a whole test set against every mutant of an
 operator and writes one CSV per mutant, and `ms_calcu_exec` runs that for every
-model in a case study — see [uq4ma.md](uq4ma.md) for both.
+model in a case study.
 
 ## Running the tests
 
