@@ -2,7 +2,7 @@
 
 ## Introduction
 
-DeepLUQ provides methods and metrics for capturing and quantifying uncertainty in deep learning models. It currently implements Monte Carlo Dropout (MC-Dropout) for capturing uncertainty in model predictions, and integrates a range of UQ metrics for the two most common deep learning tasks: regression and classification.
+DeepLUQ provides methods and metrics for capturing and quantifying uncertainty in deep learning models, as summarized in the figure below. It implements Monte Carlo Dropout and Monte Carlo DropBlock for capturing uncertainty in model predictions, alongside a dedicated UQ method for Vision-Language-Action (VLA) models. On top of these, DeepLUQ integrates: classification metrics (Variation Ratio, Shannon Entropy, Mutual Information) and regression metrics (Total Variance, Prediction Surface) for general deep learning tasks; UQ metrics tailored to VLA models; and uncertainty-aware mutation scores (Image-level, Object-level, IoU-based, and Uncertainty-Aware Mutation Score) for mutation testing of deep learning models.
 
 ```{figure} /figs/deepluq.png
 :alt: DeepLUQ overview
