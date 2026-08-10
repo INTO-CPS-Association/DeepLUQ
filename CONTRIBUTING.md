@@ -1,15 +1,15 @@
 # Contribution Guidelines
 
-Great see that you are interested in contributing to 'DeepLUQ'.
+Great see that you are interested in contributing to **DeepLUQ**.
 
 To make the process as smooth as possible for all involed parties, you will find some instructions
 below.  In case there is some information missing, or you feel lost, do not
-hesitate to ask or [open an issue](https://github.com/chengjie/deepluq/issues/new)
+hesitate to ask or [open an issue](https://github.com/INTO-CPS-Association/DeepLUQ/issues/new)
  on this project.
 
  ## Installation
 
- Follow the installation and setup instructions in the [README.md](README.md).
+ Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
 
 ## Code and development style
