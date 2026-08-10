@@ -9,7 +9,7 @@ DeepLUQ provides methods and metrics for capturing and quantifying uncertainty i
 :width: 100%
 :align: center
 
-Overview of the DeepLUQ uncertainty quantification pipeline.
+Overview of the DeepLUQ Library.
 ```
 
 ## Acknowledgement
