@@ -95,3 +95,7 @@ The key arguments include:
 - `--model_path`: Set the model to be evaluated.
 - `--dataset_p`: Set the dataset to be used for the evaluation.
 - `--drop_rate`: Set the dropout rate.
+
+### Acknowledgement
+
+The Anomaly Detector is adopted from [CIDL Group](https://cidl.csd.auth.gr/) from Aristotle University of Thessaloniki.
