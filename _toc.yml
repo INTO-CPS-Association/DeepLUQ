@@ -11,7 +11,7 @@ parts:
       - file: docs/api
       - file: docs/general-usage
       - file: docs/uq4dl
-      - file: docs/uq4vla
+#      - file: docs/uq4vla
       - file: docs/uq4ma
       - file: CONTRIBUTING
 #  - caption: API Documentation
