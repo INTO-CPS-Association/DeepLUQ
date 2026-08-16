@@ -8,8 +8,8 @@ parts:
   - caption: DeepLUQ Documentation
     chapters:
       - file: docs/install
-      - file: docs/api
       - file: docs/general-usage
+      - file: docs/api
       - file: docs/uq4dl
 #      - file: docs/uq4vla
       - file: docs/uq4ma

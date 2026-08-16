@@ -1,5 +1,9 @@
 ## Installation
 
+### Requirements
+
+- Python 3.8 or newer (tested on 3.8-3.12)
+
 DeepLUQ can be installed either from source or from PyPI.
 
 ### Option 1: Install from source
