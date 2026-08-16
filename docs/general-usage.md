@@ -6,6 +6,80 @@ metric exercised with concrete inputs and expected output shapes/ranges.
 
 Follow the installation and setup instructions in the [Installation Page](https://into-cps-association.github.io/DeepLUQ/docs/install.html).
 
+## Key Concepts
+
+`deepluq`'s metrics are built around Bayesian approximation approaches,
+**MC-Dropout** ([Gal and Ghahramani, 2016](http://proceedings.mlr.press/v48/gal16.html))
+and **MC-DropBlock** ([Yelleni and Kumari, 2024](https://doi.org/10.1016/j.patcog.2023.110003)),
+for uncertainty quantification (UQ) in deep neural networks.
+Instead of retraining a model, we inject dropout (or DropBlock, which drops
+contiguous spatial regions of a feature map rather than individual units,
+and is better suited to convolutional object-detection backbones) layers into
+a pre-trained model and keep them *active at inference time* (normally
+dropout is only active during training). Running the resulting model `T`
+times on the same input produces `T` slightly different predictions, a
+sample from the model's predictive distribution. A confident model produces near-identical
+predictions across the `T` runs; an uncertain one produces predictions that
+disagree, either in the predicted class or in the predicted location. The
+metrics below turn that disagreement into a number.
+
+For object detection, the `T` predictions for one image contain a variable
+number of detected boxes that don't line up 1:1 across runs (an object may be
+missed on some passes, or several boxes may correspond to the same object).
+Before per-object uncertainty can be computed, the boxes must first be
+grouped by the object they refer to, which is what the clustering helpers in
+`deepluq.utils` (`wbf_clustering`, `DBSCANCluster`) are for. Each resulting
+cluster represents one detected object, with a set of `W` (`1 <= W <= T`)
+per-pass class scores and bounding boxes to compute uncertainty from.
+
+Two families of metrics are computed per object/cluster:
+
+- **Classification uncertainty**: how much the *class* predictions disagree
+  across the `W` passes:
+  - **Variation Ratio (VR)**: the fraction of passes that disagree with the
+    most frequent (modal) class. `0` = every pass agrees, higher = more
+    disagreement.
+  - **Shannon Entropy (SE)**: the average information content of the mean
+    class-probability distribution across passes. `0` = one class always gets
+    probability 1, maximum = all classes equally likely.
+  - **Mutual Information (MI)**: the gap between the entropy of the *mean*
+    prediction and the *mean* of the per-pass entropies. Low when the model is
+    just generally unsure about the class (but consistent across passes),
+    high when the passes actively disagree with each other.
+- **Geometric (localization) uncertainty**: how much the *bounding box*
+  predictions disagree across the `W` passes:
+  - **Total Variance (TV)**: sum of the per-coordinate variances of the box
+    corners (or center point) across passes. `0` = identical boxes every
+    pass, larger = more spread out.
+  - **Prediction Surface (PS)**: area of the convex hull formed by each box
+    corner across passes, averaged over the four corners. `0`-ish = corners
+    barely move between passes, larger = more positional disagreement.
+
+These correspond to `deepluq.metrics_dl.DLMetrics`'s `cal_vr`, `calcu_entropy`,
+`calcu_mi`, `calcu_tv`, and `calcu_prediction_surface` methods used below.
+`deepluq.metrics_vla` applies the same underlying idea (disagreement across
+repeated/ensembled predictions) to VLA model outputs instead of detection
+boxes, and `deepluq.metrics_mut` uses MC-Dropout/MC-DropBlock *mutants* of a
+model to score how much a mutation affects both correctness and uncertainty
+(see [Uncertainty-Aware Mutation Analysis](uq4ma.md) for those concepts).
+
+For the full derivation, parameter choices (e.g. `T=20`), and an evaluation
+on a real sticker-detection model, see the references below.
+
+### References
+
+1. Yarin Gal and Zoubin Ghahramani. "Dropout as a Bayesian Approximation:
+   Representing Model Uncertainty in Deep Learning." In *International
+   Conference on Machine Learning (ICML)*. PMLR, 2016.
+2. Sai Harsha Yelleni and Deepshikha Kumari. "Monte Carlo DropBlock for
+   Modeling Uncertainty in Object Detection." *Pattern Recognition* 146
+   (2024): 110003.
+3. Chengjie Lu, Jiahui Wu, Shaukat Ali, and Mikkel Labori Olsen. "Assessing
+   the Uncertainty and Robustness of the Laptop Refurbishing Software." In
+   *2025 IEEE Conference on Software Testing, Verification and Validation
+   (ICST)*, Napoli, Italy, 2025, pp. 406-416.
+   [doi:10.1109/ICST62969.2025.10988977](https://doi.org/10.1109/ICST62969.2025.10988977)
+
 Main functionality:
 
 - `deepluq.metrics_dl.DLMetrics`: UQ metrics for general deep learning models
